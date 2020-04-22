@@ -127,7 +127,7 @@ function( ci_make_library )
             add_compile_options( /MP )
             # Add lib dirs
             cmake_policy( PUSH )
-            cmake_policy( SET CMP0015 OLD )
+            cmake_policy( SET CMP0015 NEW)
             link_directories( "${CINDER_PATH}/lib/${CINDER_TARGET_SUBFOLDER}" )
             cmake_policy( POP )
         endif()

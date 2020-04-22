@@ -11,7 +11,7 @@
 #include "cinder/Rand.h"
 #include "cinder/gl/VboMesh.h"
 
-namespace mylibrary {
+namespace mylibrary { // --> rename
 
 class Bird {
  public:

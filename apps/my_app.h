@@ -24,7 +24,7 @@ class MyApp : public cinder::app::App {
   void DrawGameOver();
   void DrawBackground();
   void DrawPipes();
-  void DrawMainMenu(); // do at the end
+  void DrawMainMenu();
   void DrawBird();
   void PauseGame(); // end
   void ResumeGame(); // end

@@ -19,13 +19,13 @@
 
 
 //#include "C:\Users\SamaahMachine\Documents\cinder_0.9.2_vc2015\blocks\Cinder-Bullet3D\src\Cinder-Bullet3D\MotionState.h"
-#include "Cinder-Bullet3D/MotionState.h"
-#include "Cinder-Bullet3D/RigidBody.h"
-#include "Cinder-Bullet3D/BulletContext.h"
-#include "Cinder-Bullet3D/Common.h"
+//#include "Cinder-Bullet3D/MotionState.h"
+//#include "Cinder-Bullet3D/RigidBody.h"
+#include <Cinder-Bullet3D/BulletContext.h>
+#include <Cinder-Bullet3D/Common.h>
 
-#include "BulletPhysics/btBulletDynamicsCommon.h"
-#include "BulletPhysics/btBulletCollisionCommon.h"
+#include <BulletPhysics/btBulletDynamicsCommon.h>
+#include <BulletPhysics/btBulletCollisionCommon.h>
 //#include "BulletPhysics"
 //#include "Cinder-Bullet3D"
 //#include <Cinder-Bullet3D>
@@ -38,6 +38,7 @@ namespace mylibrary {
 
 void Bird::Jump() {
 
+  // move location of bird up
 }
 
 void Bird::draw() {
@@ -49,16 +50,16 @@ void Bird::draw() {
    bullet::RigidBodyRef mPlane, mMultiSphere;
 //  mPlane = RigidBody::create( RigidBody::Format().collisionShape( createStaticPlaneShape( cinder::vec3( 0, 1, 0 ), 0 ) ) );
 
-//
-//  btBroadphaseInterface* broadphase = new btDbvtBroadphase();
-//  btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
-//  btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
-//
-//  btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
-//
-//  btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,broadphase,solver,collisionConfiguration);
 
-  //dynamicsWorld->setGravity(btVector3(0,-10,0));
+  btBroadphaseInterface* broadphase = new btDbvtBroadphase();
+  btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
+  btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
+
+  btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
+
+  btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,broadphase,solver,collisionConfiguration);
+dynamicsWorld->setGravity(btVector3(0,-10,0));
+
 //  std::vector<ci::vec3> positions = {
 //     cinder:: vec3( 1, 0, 0 ),
 //     cinder::vec3( 0, 0, 0 ),

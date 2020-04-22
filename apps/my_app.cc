@@ -10,12 +10,9 @@
 #include <cinder/gl/draw.h>
 #include <cinder/gl/gl.h>
 #include <string>
-#include <algorithm>
-#include <chrono>
-#include <cmath>
 
 
-namespace myapp {
+namespace myapp { // --> rename myapp
 using cinder::Color;
 using cinder::ColorA;
 using cinder::Rectf;
@@ -50,7 +47,7 @@ void MyApp::update() { }
 
 void MyApp::draw() {
   bird_.draw();
- // pipe_.drawPipe();
+  pipe_.DrawPipe();
 }
 
 void MyApp::SetUpFlyingAudio() {
@@ -89,7 +86,7 @@ void MyApp::keyDown(KeyEvent event) {
 
   if (event.getCode() == KeyEvent::KEY_j){
     score_++;
-    std::string s = std::to_string(score_);
+    std::string s = std::to_string(score_); // rename s to string_score
     PrintScore(s, color, size, center);
     bird_.Jump();
     SetUpFlyingAudio();
