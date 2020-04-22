@@ -53,12 +53,12 @@ void MyApp::draw() {
  // pipe_.drawPipe();
 }
 
-//void MyApp::SetUpFlyingAudio() {
-//  cinder::audio::SourceFileRef audioFile = cinder::audio::load(
-//      cinder::app::loadAsset( "sound93.wav" ));
-//  flying_audio = cinder::audio::Voice::create( audioFile );
-//  flying_audio->start();
-//}
+void MyApp::SetUpFlyingAudio() {
+  cinder::audio::SourceFileRef audioFile = cinder::audio::load(
+      cinder::app::loadAsset( "sound93.wav" ));
+  flying_audio = cinder::audio::Voice::create( audioFile );
+  flying_audio->start();
+}
 
 template <typename C>
 void PrintScore(const std::string& text, const C& color, const cinder::ivec2& size,
@@ -92,7 +92,7 @@ void MyApp::keyDown(KeyEvent event) {
     std::string s = std::to_string(score_);
     PrintScore(s, color, size, center);
     bird_.Jump();
-    //SetUpFlyingAudio();
+    SetUpFlyingAudio();
   }
 }
 

@@ -28,7 +28,7 @@ class MyApp : public cinder::app::App {
   void DrawBird();
   void PauseGame(); // end
   void ResumeGame(); // end
-  //void SetUpFlyingAudio();
+  void SetUpFlyingAudio();
   const float bird_size = 30;
   int score_ = 0;
   cinder::audio::VoiceRef flying_audio;
