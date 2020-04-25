@@ -12,15 +12,16 @@
 namespace mylibrary {
 
 void Bird::Jump() {
-  nlohmann::json::parse("asdfasdf");
+ // nlohmann::json::parse("asdfasdf");
 }
 
-void Bird::draw() {
+void Bird::DrawBird() {
 
   cinder::gl::color(225, 200, 0);
 
   cinder::gl::drawSolidCircle(cinder::vec2((cinder::app::
-  getWindowCenter().x / 4),cinder::app::getWindowCenter().y), kBirdSize);
+  getWindowCenter().x / 4),cinder::app::getWindowCenter().y),
+      kBirdSize_);
 
 }
 }  // namespace mylibrary

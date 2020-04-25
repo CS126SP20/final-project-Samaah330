@@ -15,11 +15,11 @@ namespace mylibrary { // --> rename
 
 class Bird {
  public:
-  void draw();
+  void DrawBird();
   void Jump();
   void Animate();
  private:
-  const float kBirdSize = 30;
+  const float kBirdSize_ = 30;
 
 };
 

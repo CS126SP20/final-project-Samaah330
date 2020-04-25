@@ -11,18 +11,25 @@
 
 namespace mylibrary {
 
-void Pipe::DrawPipe() {
+void Pipe::DrawPipes() {
 
   // find random number for y length
   cinder::gl::color(0,200,0);
-  int max = 300; // rename to make it more specific max_y_position , make const
-  int min = 0;
-  int rand_num = rand()%(max-min + 1) + min;
+//  int max = 300; // rename to make it more specific max_y_position , make const
+//  int min = 0;
+//  int rand_num = rand()%(max-min + 1) + min;
   //int SecondrandNum = rand()%(max-min + 1) + min;
   // ( , y position , , size of y length)
-  cinder::gl::drawSolidRect(cinder::Rectf(cinder::app::getWindowCenter().x,
-      0, cinder::app::getWindowCenter().x + 30, rand_num));
-  //cinder::gl::drawSolidRect(cinder::Rectf(cinder::app::getWindowCenter().x
-  // + 60, 0, cinder::app::getWindowCenter().x + 90, SecondrandNum));
+
+  cinder::gl::drawSolidRect(cinder::Rectf(x_position_,0, x2_position_, 250));
+  cinder::gl::drawSolidRect(cinder::Rectf(x_position_,cinder::app::getWindowHeight()
+      , x2_position_, cinder::app::getWindowHeight() - 250));
+
+  x_position_ += 100;
+  x2_position_ += 100;
+
+  cinder::gl::drawSolidRect(cinder::Rectf(x_position_,0, x2_position_, 250));
+  cinder::gl::drawSolidRect(cinder::Rectf(x_position_,cinder::app::getWindowHeight()
+      , x2_position_, cinder::app::getWindowHeight() - 250));
 }
 }

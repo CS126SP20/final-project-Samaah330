@@ -46,8 +46,8 @@ void MyApp::setup() { }
 void MyApp::update() { }
 
 void MyApp::draw() {
-  bird_.draw();
-  pipe_.DrawPipe();
+  bird_.DrawBird();
+  pipe_.DrawPipes();
 }
 
 void MyApp::SetUpFlyingAudio() {
