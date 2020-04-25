@@ -6,6 +6,7 @@
 #define FINALPROJECT_FLAPPYBIRD_PIPE_H_
 using namespace std;
 #include "cinder/app/App.h"
+#include <random>
 
 namespace mylibrary {
 
@@ -14,8 +15,13 @@ class Pipe {
   void DrawPipes();
   void MovePipes();
  private:
-  int x_position_ = - 100;
-  int x2_position_ = -70;
+  size_t x_position_ = - 100;
+  size_t x2_position_ = -70;
+  size_t kMaxYPos_ = 300;
+  size_t kMinYPos_ = 50;
+  size_t rand_num_ = rand() % (kMaxYPos_ - kMinYPos_ + 1) + kMinYPos_;
+  size_t space_between_pipes = 200;
+  size_t green_value_ = 200;
 
 };
 }

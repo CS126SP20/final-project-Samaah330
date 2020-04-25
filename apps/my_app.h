@@ -7,6 +7,7 @@
 #include <mylibrary/bird.h>
 #include <mylibrary/pipe.h>
 #include <cinder/audio/Voice.h>
+#include <random>
 
 namespace myapp {
 

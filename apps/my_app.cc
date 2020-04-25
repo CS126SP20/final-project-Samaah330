@@ -4,6 +4,7 @@
 
 #include <cinder/app/App.h>
 
+
 #include <cinder/Font.h>
 #include <cinder/Text.h>
 #include <cinder/Vector.h>
@@ -41,7 +42,8 @@ using cinder::app::KeyEvent;
 
 MyApp::MyApp() { }
 
-void MyApp::setup() { }
+void MyApp::setup() {
+}
 
 void MyApp::update() { }
 

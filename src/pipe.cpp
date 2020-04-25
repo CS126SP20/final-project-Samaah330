@@ -8,28 +8,29 @@
 
 #include "mylibrary/pipe.h"
 #include "cinder/app/App.h"
+#include <random>
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <string>
+
 
 namespace mylibrary {
 
 void Pipe::DrawPipes() {
 
-  // find random number for y length
-  cinder::gl::color(0,200,0);
-//  int max = 300; // rename to make it more specific max_y_position , make const
-//  int min = 0;
-//  int rand_num = rand()%(max-min + 1) + min;
-  //int SecondrandNum = rand()%(max-min + 1) + min;
-  // ( , y position , , size of y length)
+  cinder::gl::color(0,green_value_,0);
 
-  cinder::gl::drawSolidRect(cinder::Rectf(x_position_,0, x2_position_, 250));
+  cinder::gl::drawSolidRect(cinder::Rectf(x_position_,0, x2_position_, rand_num_));
   cinder::gl::drawSolidRect(cinder::Rectf(x_position_,cinder::app::getWindowHeight()
-      , x2_position_, cinder::app::getWindowHeight() - 250));
+      , x2_position_, cinder::app::getWindowHeight() - rand_num_));
 
-  x_position_ += 100;
-  x2_position_ += 100;
+  x_position_ += space_between_pipes;
+  x2_position_ += space_between_pipes;
+  rand_num_ = rand() % (kMaxYPos_ - kMinYPos_ + 1) + kMinYPos_;
 
-  cinder::gl::drawSolidRect(cinder::Rectf(x_position_,0, x2_position_, 250));
+  cinder::gl::drawSolidRect(cinder::Rectf(x_position_,0, x2_position_,rand_num_));
   cinder::gl::drawSolidRect(cinder::Rectf(x_position_,cinder::app::getWindowHeight()
-      , x2_position_, cinder::app::getWindowHeight() - 250));
+      , x2_position_, cinder::app::getWindowHeight() - rand_num_));
 }
 }
