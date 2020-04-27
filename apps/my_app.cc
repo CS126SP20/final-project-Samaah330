@@ -52,12 +52,18 @@ void MyApp::update() {
 
 void MyApp::draw() {
   cinder::gl::clear(Color(0,0,0), true);
- // DrawBackground();
+  DrawBackground();
   bird_.DrawBird();
   engine_pipe_.DrawPipes();
 }
 
 void MyApp::DrawBackground() {
+  // ask about the color issue at office hours tomorrow
+  cinder::gl::clear(Color(0, 0, 204));
+
+  cinder::gl::color(32, 81, 47);
+  cinder::gl::drawSolidRect(Rectf(0, cinder::app::getWindowHeight()
+  - 150, cinder::app::getWindowWidth(), cinder::app::getWindowHeight()));
 }
 void MyApp::PlayFlyingAudio() {
   cinder::audio::SourceFileRef audioFile = cinder::audio::load(
