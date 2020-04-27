@@ -17,7 +17,6 @@ class Bird {
  public:
   void DrawBird();
   void Jump();
-  void Animate();
  private:
   const float kBirdSize_ = 30;
 

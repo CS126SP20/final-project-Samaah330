@@ -4,9 +4,11 @@
 #define FINALPROJECT_APPS_MYAPP_H_
 
 #include <cinder/app/App.h>
-#include <mylibrary/bird.h>
-#include <mylibrary/pipe.h>
 #include <cinder/audio/Voice.h>
+#include <mylibrary/bird.h>
+#include <mylibrary/enginepipe.h>
+#include <mylibrary/pipe.h>
+
 #include <random>
 
 namespace myapp {
@@ -21,7 +23,7 @@ class MyApp : public cinder::app::App {
 
  private:
   mylibrary::Bird bird_;
-  mylibrary::Pipe pipe_;
+  mylibrary::EnginePipe engine_pipe_;
   void DrawGameOver();
   void DrawBackground();
   void DrawPipes();
@@ -29,10 +31,10 @@ class MyApp : public cinder::app::App {
   void DrawBird();
   void PauseGame(); // end
   void ResumeGame(); // end
-  void SetUpFlyingAudio();
-  const float bird_size = 30;
+  void PlayFlyingAudio();
   int score_ = 0;
   cinder::audio::VoiceRef flying_audio;
+
 };
 
 }  // namespace myapp

@@ -43,16 +43,23 @@ using cinder::app::KeyEvent;
 MyApp::MyApp() { }
 
 void MyApp::setup() {
+  engine_pipe_.AddPipes(5);
 }
 
-void MyApp::update() { }
+void MyApp::update() {
+  engine_pipe_.UpdatePipes();
+}
 
 void MyApp::draw() {
+  cinder::gl::clear(Color(0,0,0), true);
+ // DrawBackground();
   bird_.DrawBird();
-  pipe_.DrawPipes();
+  engine_pipe_.DrawPipes();
 }
 
-void MyApp::SetUpFlyingAudio() {
+void MyApp::DrawBackground() {
+}
+void MyApp::PlayFlyingAudio() {
   cinder::audio::SourceFileRef audioFile = cinder::audio::load(
       cinder::app::loadAsset( "sound93.wav" ));
   flying_audio = cinder::audio::Voice::create( audioFile );
@@ -86,12 +93,12 @@ void MyApp::keyDown(KeyEvent event) {
   const cinder::ivec2 size = {500, 50};
   const Color color = Color::white();
 
-  if (event.getCode() == KeyEvent::KEY_j){
+  if (event.getCode() == KeyEvent::KEY_SPACE){
     score_++;
-    std::string s = std::to_string(score_); // rename s to string_score
-    PrintScore(s, color, size, center);
+    std::string string_score = std::to_string(score_);
+    PrintScore(string_score, color, size, center);
     bird_.Jump();
-    SetUpFlyingAudio();
+    PlayFlyingAudio();
   }
 }
 

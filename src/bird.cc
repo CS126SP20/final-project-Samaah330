@@ -12,7 +12,6 @@
 namespace mylibrary {
 
 void Bird::Jump() {
- // nlohmann::json::parse("asdfasdf");
 }
 
 void Bird::DrawBird() {
