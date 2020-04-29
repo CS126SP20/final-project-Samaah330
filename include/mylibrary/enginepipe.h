@@ -14,7 +14,7 @@ namespace mylibrary {
 
 class EnginePipe {
  public:
-  void UpdatePipes();
+  void UpdatePipesPosition();
   void DrawPipes();
   void AddPipes(int num_pipes);
  private:

@@ -13,7 +13,7 @@ namespace mylibrary {
 
 class Pipe {
  public:
-  void Update();
+  void UpdatePosition();
   void Draw();
   Pipe ();
   Pipe (cinder::vec2 point);

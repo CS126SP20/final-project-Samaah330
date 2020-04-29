@@ -17,8 +17,17 @@ class Bird {
  public:
   void DrawBird();
   void Jump();
+  void UpdatePositionGravity();
  private:
   const float kBirdSize_ = 30;
+  size_t x_position_ = cinder::app::getWindowCenter().x / 4;
+  size_t y_position_ = cinder::app::getWindowCenter().y;
+  double velocity_ = 0;
+  double acceleration_ = 9.8;
+  double time_ = 0;
+  double elapsed_time_per_frame_ = 0.03;
+
+  double jump_velocity = 80;
 
 };
 
