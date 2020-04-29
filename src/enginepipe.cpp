@@ -11,9 +11,9 @@ void EnginePipe::DrawPipes() {
   }
 }
 
-void EnginePipe::UpdatePipes() {
+void EnginePipe::UpdatePipesPosition() {
   for(list<Pipe>::iterator pipe = pipes.begin(); pipe != pipes.end(); ++pipe){
-    pipe->Update();
+    pipe->UpdatePosition();
   }
 }
 

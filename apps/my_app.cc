@@ -11,6 +11,7 @@
 #include <cinder/gl/draw.h>
 #include <cinder/gl/gl.h>
 #include <string>
+#include <nlohmann/json.hpp>
 
 
 namespace myapp { // --> rename myapp
@@ -42,38 +43,8 @@ using cinder::app::KeyEvent;
 
 MyApp::MyApp() { }
 
-void MyApp::setup() {
-  engine_pipe_.AddPipes(5);
-}
-
-void MyApp::update() {
-  engine_pipe_.UpdatePipes();
-}
-
-void MyApp::draw() {
-  cinder::gl::clear(Color(0,0,0), true);
-  DrawBackground();
-  bird_.DrawBird();
-  engine_pipe_.DrawPipes();
-}
-
-void MyApp::DrawBackground() {
-  // ask about the color issue at office hours tomorrow
-  cinder::gl::clear(Color(0, 0, 204));
-
-  cinder::gl::color(32, 81, 47);
-  cinder::gl::drawSolidRect(Rectf(0, cinder::app::getWindowHeight()
-  - 150, cinder::app::getWindowWidth(), cinder::app::getWindowHeight()));
-}
-void MyApp::PlayFlyingAudio() {
-  cinder::audio::SourceFileRef audioFile = cinder::audio::load(
-      cinder::app::loadAsset( "sound93.wav" ));
-  flying_audio = cinder::audio::Voice::create( audioFile );
-  flying_audio->start();
-}
-
 template <typename C>
-void PrintScore(const std::string& text, const C& color, const cinder::ivec2& size,
+void PrintText(const std::string& text, const C& color, const cinder::ivec2& size,
                const cinder::vec2& loc) {
   cinder::gl::color(color);
 
@@ -93,19 +64,97 @@ void PrintScore(const std::string& text, const C& color, const cinder::ivec2& si
   const auto texture = cinder::gl::Texture::create(surface);
   cinder::gl::draw(texture, locp);
 }
+void MyApp::setup() {
+  engine_pipe_.AddPipes(5);
+}
 
-void MyApp::keyDown(KeyEvent event) {
-  const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {500, 50};
-  const Color color = Color::white();
+void MyApp::update() {
+  engine_pipe_.UpdatePipesPosition();
+  bird_.UpdatePositionGravity();
+}
 
-  if (event.getCode() == KeyEvent::KEY_SPACE){
-    score_++;
-    std::string string_score = std::to_string(score_);
-    PrintScore(string_score, color, size, center);
-    bird_.Jump();
-    PlayFlyingAudio();
+void MyApp::draw() {
+  cinder::gl::clear(Color(0,0,0), true);
+  if (is_game_over_) {
+    DrawGameOver();
+  } else {
+    DrawBackground();
+    bird_.DrawBird();
+    engine_pipe_.DrawPipes();
   }
 }
+
+void MyApp::DrawGameOver() {
+  cinder::gl::clear(Color(255, 0, 0), true);
+
+  const cinder::vec2 center = getWindowCenter();
+  const cinder::ivec2 size = {500, 50};
+  const Color color = Color::black();
+
+  PrintText("Game Over", color, size, center);
+
+  StoreScore();
+  PrintScore();
+}
+
+void MyApp::StoreScore() {
+  nlohmann::json score_json;
+
+  std::string string_score = std::to_string(score_);
+  score_json["Score"] = string_score;
+
+  std::ofstream o("C:\\Users\\SamaahMachine\\Documents\\"
+                  "cinder_0.9.2_vc2015\\myProjects\\final-project-Samaah330\\"
+                  "assets\\score.json");
+  o << std::setw(4) << score_json << std::endl;
+  o.close();
+}
+
+void MyApp::PrintScore() {
+
+  std::ifstream in("C:\\Users\\SamaahMachine\\Documents\\"
+                  "cinder_0.9.2_vc2015\\myProjects\\final-project-Samaah330\\"
+                  "assets\\score.json");
+
+  nlohmann::json file = nlohmann::json::parse(in);
+
+  string score = file.at("Score");
+
+  const cinder::vec2 center = cinder::vec2(getWindowCenter().x,
+      getWindowCenter().y + 50);
+  const cinder::ivec2 size = {500, 50};
+  const Color color = Color::black();
+
+  PrintText("Score: " + score, color, size, center);
+}
+
+void MyApp::DrawBackground() {
+  cinder::gl::clear(Color(0.4, 0.69804, 1));
+
+  cinder::gl::color(0.125, 0.3176, 0.1843);
+  cinder::gl::drawSolidRect(Rectf(0, cinder::app::getWindowHeight()
+  - 150, cinder::app::getWindowWidth(), cinder::app::getWindowHeight()));
+}
+
+void MyApp::PlayFlyingAudio() {
+  cinder::audio::SourceFileRef audioFile = cinder::audio::load(
+      cinder::app::loadAsset( "sound93.wav" ));
+  flying_audio_ = cinder::audio::Voice::create( audioFile );
+  flying_audio_->start();
+}
+
+
+void MyApp::keyDown(KeyEvent event) {
+  if (event.getCode() == KeyEvent::KEY_SPACE){
+    if (!is_game_over_) {
+      score_++;
+      bird_.Jump();
+      PlayFlyingAudio();
+    }
+  } else if (event.getCode() == KeyEvent::KEY_j) {
+    is_game_over_ = true;
+  }
+}
+
 
 }  // namespace myapp

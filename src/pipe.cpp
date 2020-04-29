@@ -29,7 +29,7 @@ Pipe::Pipe(cinder::vec2 point) {
 }
 
 void Pipe::Draw(){
-  cinder::gl::color(0, green_value_, 0);
+  cinder::gl::color(0.30196, 0.90196, 0.443137);
   cinder::gl::drawSolidRect(cinder::Rectf(x_position_,0, x2_position_, rand_top_pipe_height_));
 
   cinder::gl::drawSolidRect(cinder::Rectf(x_position_,
@@ -37,7 +37,7 @@ void Pipe::Draw(){
       cinder::app::getWindowHeight() - rand_bottom_pipe_height));
 }
 
-void Pipe::Update(){
+void Pipe::UpdatePosition(){
   if (x_position_ <= 0) {
     x_position_ = cinder::app::getWindowWidth();
     x2_position_ = cinder::app::getWindowWidth() + 50;

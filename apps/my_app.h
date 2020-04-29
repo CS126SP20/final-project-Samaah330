@@ -26,15 +26,12 @@ class MyApp : public cinder::app::App {
   mylibrary::EnginePipe engine_pipe_;
   void DrawGameOver();
   void DrawBackground();
-  void DrawPipes();
-  void DrawMainMenu();
-  void DrawBird();
-  void PauseGame(); // end
-  void ResumeGame(); // end
+  void StoreScore();
+  void PrintScore();
   void PlayFlyingAudio();
   int score_ = 0;
-  cinder::audio::VoiceRef flying_audio;
-
+  cinder::audio::VoiceRef flying_audio_;
+  bool is_game_over_ = false;
 };
 
 }  // namespace myapp
