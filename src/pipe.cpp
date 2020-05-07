@@ -1,36 +1,34 @@
-//
-// Created by SamaahMachine on 4/19/2020.
-//
-
-#include "mylibrary/pipe.h"
-
 #include <cinder/Vector.h>
 #include <cinder/gl/draw.h>
 #include <cinder/gl/gl.h>
-
-#include <algorithm>
-#include <chrono>
 #include <cmath>
-#include <random>
-#include <string>
 
+#include "mylibrary/pipe.h"
 #include "cinder/app/App.h"
-#include "mylibrary/pipe_engine.h"
+
+namespace flappybird {
 
 using namespace ci;
 using namespace ci::app;
-namespace mylibrary {
 
 Pipe::Pipe() {}
 
 Pipe::Pipe(cinder::vec2 point) {
   x_position_ = point.x;
   x2_position_ = point.x + 100;
+
+ rand_bottom_pipe_height =  rand() % (kMaxBottomPipeHeight_
+            - kMinBottomPipeHeight_ + 1) + kMinBottomPipeHeight_;
+
+  rand_top_pipe_height_ = rand() % (kMaxTopPipeHeight_ -
+      kMinTopPipeHeight_ + 1)+ kMinTopPipeHeight_;
 }
 
 void Pipe::Draw(){
-  cinder::gl::color(0.30196, 0.90196, 0.443137);
-  cinder::gl::drawSolidRect(cinder::Rectf(x_position_,0, x2_position_, rand_top_pipe_height_));
+  cinder::gl::color(0.30196, 0.90196, 0.443137); // light green
+
+  cinder::gl::drawSolidRect(cinder::Rectf(x_position_,0,
+      x2_position_, rand_top_pipe_height_));
 
   cinder::gl::drawSolidRect(cinder::Rectf(x_position_,
       cinder::app::getWindowHeight() - 350, x2_position_,

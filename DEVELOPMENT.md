@@ -44,7 +44,45 @@ game over screen.
 * Made my own physics and added gravity to bird so that it falls 
 at a rate of 9.8 meters per second. 
 * Added functionality to make bird jump by increasing y position of bird 
-when user presses down space bar. However, I need to work on this part more 
-because it is not complete since the jump is not smooth.
+when user presses down space bar.
 
+4/30/2020:
+* Drew Main Menu screen by drawing original background without the bird 
+and then created simple logo for name of the game which was displayed in 
+the middle of the screen. 
+* Added instructions for user to press the p button to play game
+*After realizing that there is a small time period that glitches between
+when the user exits the main menu screen and enters screen for playing 
+the game, I fixed the bug by not allowing for collision to be counted
+during the first few frames after the user exits the main menu screen.
 
+5/1/2020:
+* Instead of just printing the score at the end of the game, I printed 
+score during the game as well so player can see progress in score while 
+they are playing.
+* Resized game by changing size of app window, and changing size and 
+positions of pipes and text.
+
+5/2/2020:
+* Added function to check for collision in pipe_engine class.
+* Ran into issues involving not being able to get the accurate position 
+of bird based on how it was falling and jumping.
+* Fixed bug by adding function to check for collision in myApp class
+and adding get methods within bird and pipe_engine_ class to retrieve 
+positions of pipes and bird.
+* While including different header files, there was a bug involving circular
+dependencies. To fix it, I removed header files that I included which I was 
+not using. 
+
+5/4/2020:
+* Added functionality to reset game by allowing user to press on tab button
+which would move user back to main menu state and resetting score back to 0.
+* To fix bug about bird disappearing when game was reset, I reset the 
+position of the bird as well when resetting game. 
+
+5/5/2020:
+* Added documentation and comments in header files to make code more clear. 
+* Renamed functions and variables so that they were more clear and followed 
+Google style guide. 
+* Changed absolute file paths to just local file paths. 
+* Created member variables to magic numbers. 

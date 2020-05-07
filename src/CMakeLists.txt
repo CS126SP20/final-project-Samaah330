@@ -24,8 +24,8 @@ ci_make_library(
 )
 
 
-#target_link_libraries(mylibrary PUBLIC Cinder-Bullet3D)#/src/BulletPhysics)##
-#target_link_libraries(mylibrary PUBLIC Cinder-Bullet3D/src/Cinder-Bullet3D)
+#target_link_libraries(flappybird PUBLIC Cinder-Bullet3D)#/src/BulletPhysics)##
+#target_link_libraries(flappybird PUBLIC Cinder-Bullet3D/src/Cinder-Bullet3D)
 # All users of this library will need at least C++14
 target_compile_features(mylibrary PUBLIC cxx_std_14)
 

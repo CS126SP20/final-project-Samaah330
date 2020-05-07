@@ -1,9 +1,6 @@
-// Copyright (c) 2020 [Your Name]. All rights reserved.
-
 #include "my_app.h"
 
 #include <cinder/app/App.h>
-
 
 #include <cinder/Font.h>
 #include <cinder/Text.h>
@@ -13,8 +10,8 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
+namespace flappybirdapp {
 
-namespace myapp { // --> rename myapp
 using cinder::Color;
 using cinder::ColorA;
 using cinder::Rectf;
@@ -41,7 +38,12 @@ const string kDifferentFont = "Papyrus";
 
 using cinder::app::KeyEvent;
 
-MyApp::MyApp() { }
+FlappyBird::FlappyBird() {
+  is_game_over_ = false;
+  is_main_menu_state_ = true;
+  playing_state_num_frames_ = 0;
+  score_ = 0;
+}
 
 template <typename C>
 void PrintText(const std::string& text, const C& color,
@@ -67,11 +69,11 @@ void PrintText(const std::string& text, const C& color,
   cinder::gl::draw(texture, locp);
 }
 
-void MyApp::setup() {
+void FlappyBird::setup() {
   pipe_engine_.AddPipes(kNumPipes_);
 }
 
-void MyApp::update() {
+void FlappyBird::update() {
   pipe_engine_.UpdatePipesPosition();
   if (!is_main_menu_state_ &&
       playing_state_num_frames_ >= kBeginningGameNumFrames_) {
@@ -79,17 +81,14 @@ void MyApp::update() {
   }
 }
 
-bool MyApp::DidBirdCollide() {
+bool FlappyBird::DidBirdCollide() {
   pipes_ = pipe_engine_.GetPipes();
 
-  /*
-   * bird_.GetYPosition() <= cinder::app::getWindowHeight() - kGrassHeight_
-   */
   if (is_game_over_) {
     return true;
   }
 
-  for (mylibrary::Pipe& pipe_itr : pipes_) {
+  for (flappybird::Pipe& pipe_itr : pipes_) {
     if ((bird_.GetXPosition() >= pipe_itr.GetXPosition() &&
          bird_.GetXPosition() <= pipe_itr.GetX2Position()) &&
         (bird_.GetYPosition() <= pipe_itr.GetRandTopPipeHeight() ||
@@ -101,7 +100,7 @@ bool MyApp::DidBirdCollide() {
   return false;
 }
 
-void MyApp::draw() {
+void FlappyBird::draw() {
   cinder::gl::clear(Color(0,0,0), true);
 
   if (is_main_menu_state_) {
@@ -112,15 +111,19 @@ void MyApp::draw() {
     DrawGameOver();
   } else {
     playing_state_num_frames_++;
-    DrawBackground();
-    bird_.Draw();
-    pipe_engine_.DrawPipes();
-    StoreScore();
-    PrintScore();
+    DrawPlayingGameScreen();
   }
 }
 
-void MyApp::DrawGameOver() const {
+void FlappyBird::DrawPlayingGameScreen() {
+  DrawBackground();
+  bird_.Draw();
+  pipe_engine_.DrawPipes();
+  StoreScore();
+  PrintScore();
+}
+
+void FlappyBird::DrawGameOver() const {
   cinder::gl::clear(Color(1, 0, 0),
       true); // red
 
@@ -141,7 +144,7 @@ void MyApp::DrawGameOver() const {
       play_again_text_position, kPlayAgainSize);
 }
 
-void MyApp::DrawMainMenu() {
+void FlappyBird::DrawMainMenu() {
   DrawBackground();
   pipe_engine_.DrawPipes();
 
@@ -160,33 +163,29 @@ void MyApp::DrawMainMenu() {
       cinder::vec2 (cinder::app::getWindowCenter().x,
           cinder::app::getWindowCenter().y + 750);
 
-  PrintText("Flappy Bird", kColorWhite, size,
+  PrintText(kGameName_, kColorWhite, size,
       game_name_white_shadow_position, kGameNameSize_);
-  PrintText("Flappy Bird", game_name_color, size,
+  PrintText(kGameName_, game_name_color, size,
       game_name_position, kGameNameSize_);
 
   PrintText("Click 'P' Button to Play Game", kColorWhite, size,
             play_instructions, kPlayInstructionsSize_);
 }
 
-void MyApp::StoreScore() const {
+void FlappyBird::StoreScore() const {
   nlohmann::json score_json;
 
   std::string string_score = std::to_string(score_);
   score_json["Score"] = string_score;
 
-  std::ofstream o("C:\\Users\\SamaahMachine\\Documents\\"
-                  "cinder_0.9.2_vc2015\\myProjects\\final-project-Samaah330\\"
-                  "assets\\score.json");
+  std::ofstream o(kScoreFileName_);
   o << std::setw(4) << score_json << std::endl;
   o.close();
 }
 
-void MyApp::PrintScore() const {
+void FlappyBird::PrintScore() const {
 
-  std::ifstream in("C:\\Users\\SamaahMachine\\Documents\\"
-                  "cinder_0.9.2_vc2015\\myProjects\\final-project-Samaah330\\"
-                  "assets\\score.json");
+  std::ifstream in(kScoreFileName_);
 
   nlohmann::json score_file = nlohmann::json::parse(in);
 
@@ -194,10 +193,11 @@ void MyApp::PrintScore() const {
 
   const cinder::ivec2 size = {500, 150};
 
-  PrintText("Score: " + score, kBlackColor, size, kScorePosition_, kScoreSize_);
+  PrintText("Score: " + score, kBlackColor, size, kScorePosition_,
+      kScoreSize_);
 }
 
-void MyApp::DrawBackground() const {
+void FlappyBird::DrawBackground() const {
   cinder::gl::clear(Color(0.4, 0.69804, 1)); // blue
 
   cinder::gl::color(0.125, 0.3176, 0.1843); // dark green
@@ -207,23 +207,13 @@ void MyApp::DrawBackground() const {
       cinder::app::getWindowWidth(), cinder::app::getWindowHeight()));
 }
 
-void MyApp::PlayJumpAudio() {
-  cinder::audio::SourceFileRef audio_file = cinder::audio::load(
-      cinder::app::loadAsset( "sound93.wav" ));
-
-  jump_audio_ = cinder::audio::Voice::create(audio_file);
-  jump_audio_->start();
-}
-
-void MyApp::keyDown(KeyEvent event) {
+void FlappyBird::keyDown(KeyEvent event) {
   if (event.getCode() == KeyEvent::KEY_SPACE){
     if (!is_game_over_ && !is_main_menu_state_) {
       score_++;
       bird_.Jump();
-      PlayJumpAudio();
+      bird_.PlayJumpAudio();
     }
-  } else if (event.getCode() == KeyEvent::KEY_j) {
-    is_game_over_ = true;
   } else if (event.getCode() == KeyEvent::KEY_p) {
     is_main_menu_state_ = false;
   } else if (event.getCode() == KeyEvent::KEY_TAB) {
@@ -234,6 +224,4 @@ void MyApp::keyDown(KeyEvent event) {
     bird_.ResetPosition();
   }
 }
-
-
-}  // namespace myapp
+}  // namespace flappybirdapp
