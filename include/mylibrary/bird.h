@@ -1,23 +1,26 @@
 // Copyright (c) 2020 [Your Name]. All rights reserved.
-#ifndef FINALPROJECT_FLAPPYBIRD_BIRD_H_
-#define FINALPROJECT_FLAPPYBIRD_BIRD_H_
+#ifndef FINALPROJECT_BIRD_H_
+#define FINALPROJECT_BIRD_H_
 
+#include "cinder/Rand.h"
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
-#include "cinder/gl/gl.h"
+#include "cinder/gl/Batch.h"
 #include "cinder/gl/Fbo.h"
 #include "cinder/gl/GlslProg.h"
-#include "cinder/gl/Batch.h"
-#include "cinder/Rand.h"
 #include "cinder/gl/VboMesh.h"
+#include "cinder/gl/gl.h"
 
 namespace mylibrary { // --> rename
 
 class Bird {
  public:
-  void DrawBird();
+  void Draw() const;
   void Jump();
   void UpdatePositionGravity();
+  int GetXPosition();
+  int GetYPosition();
+  void ResetPosition();
  private:
   const float kBirdSize_ = 30;
   size_t x_position_ = cinder::app::getWindowCenter().x / 4;
@@ -25,14 +28,10 @@ class Bird {
   double velocity_ = 0;
   double acceleration_ = 9.8;
   double time_ = 0;
-  double elapsed_time_per_frame_ = 0.03;
+  double elapsed_time_per_frame_ = 0.02;
 
   double jump_velocity = 80;
 
 };
-
-
-}  // namespace mylibrary
-
-
-#endif // FINALPROJECT_MYLIBRARY_EXAMPLE_H_
+}
+#endif // FINALPROJECT_BIRD_H_

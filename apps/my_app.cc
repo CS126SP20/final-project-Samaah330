@@ -79,12 +79,37 @@ void MyApp::update() {
   }
 }
 
+bool MyApp::DidBirdCollide() {
+  pipes_ = pipe_engine_.GetPipes();
+
+  /*
+   * bird_.GetYPosition() <= cinder::app::getWindowHeight() - kGrassHeight_
+   */
+  if (is_game_over_) {
+    return true;
+  }
+
+  for (mylibrary::Pipe& pipe_itr : pipes_) {
+    if ((bird_.GetXPosition() >= pipe_itr.GetXPosition() &&
+         bird_.GetXPosition() <= pipe_itr.GetX2Position()) &&
+        (bird_.GetYPosition() <= pipe_itr.GetRandTopPipeHeight() ||
+         bird_.GetYPosition() >= pipe_itr.GetRandBottomPipeHeight())) {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 void MyApp::draw() {
   cinder::gl::clear(Color(0,0,0), true);
 
   if (is_main_menu_state_) {
     DrawMainMenu();
+  }else if (DidBirdCollide() &&
+            playing_state_num_frames_>= kBeginningGameNumFrames_) {
+    is_game_over_ = true;
+    DrawGameOver();
   } else {
     playing_state_num_frames_++;
     DrawBackground();

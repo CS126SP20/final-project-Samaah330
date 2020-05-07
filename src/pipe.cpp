@@ -15,7 +15,7 @@
 #include <string>
 
 #include "cinder/app/App.h"
-#include "mylibrary/enginepipe.h"
+#include "mylibrary/pipe_engine.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -25,7 +25,7 @@ Pipe::Pipe() {}
 
 Pipe::Pipe(cinder::vec2 point) {
   x_position_ = point.x;
-  x2_position_ = point.x + 50;
+  x2_position_ = point.x + 100;
 }
 
 void Pipe::Draw(){
@@ -33,17 +33,33 @@ void Pipe::Draw(){
   cinder::gl::drawSolidRect(cinder::Rectf(x_position_,0, x2_position_, rand_top_pipe_height_));
 
   cinder::gl::drawSolidRect(cinder::Rectf(x_position_,
-      cinder::app::getWindowHeight() - 150, x2_position_,
+      cinder::app::getWindowHeight() - 350, x2_position_,
       cinder::app::getWindowHeight() - rand_bottom_pipe_height));
 }
 
 void Pipe::UpdatePosition(){
   if (x_position_ <= 0) {
-    x_position_ = cinder::app::getWindowWidth();
-    x2_position_ = cinder::app::getWindowWidth() + 50;
+    x_position_ = cinder::app::getWindowWidth() + 100;
+    x2_position_ = cinder::app::getWindowWidth() + 200;
   } else {
     x_position_ -= velocity_;
     x2_position_ -= velocity_;
   }
+}
+
+int Pipe::GetRandTopPipeHeight() {
+  return rand_top_pipe_height_;
+}
+
+int Pipe::GetRandBottomPipeHeight() {
+  return cinder::app::getWindowHeight() - rand_bottom_pipe_height;
+}
+
+int Pipe::GetXPosition() {
+  return x_position_;
+}
+
+int Pipe::GetX2Position() {
+  return x2_position_;
 }
 }

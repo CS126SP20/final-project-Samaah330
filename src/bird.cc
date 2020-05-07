@@ -22,12 +22,28 @@ void Bird::UpdatePositionGravity() {
   y_position_ += velocity_;
 }
 
-void Bird::DrawBird() {
+void Bird::Draw() const {
 
-  cinder::gl::color(225, 200, 0);
+  cinder::gl::color(1, .8, 0);
 
   cinder::gl::drawSolidCircle(cinder::vec2(x_position_, y_position_),
       kBirdSize_);
 
+}
+
+int Bird::GetYPosition() {
+  std::cout << y_position_ << std::endl;
+  return y_position_;
+}
+
+int Bird::GetXPosition() {
+  return x_position_;
+}
+
+void Bird::ResetPosition() {
+  x_position_ = cinder::app::getWindowCenter().x / 4;
+  y_position_ = cinder::app::getWindowCenter().y;
+  time_ = 0;
+  velocity_ = 0;
 }
 }  // namespace mylibrary
