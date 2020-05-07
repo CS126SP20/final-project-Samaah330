@@ -90,6 +90,8 @@ void MyApp::draw() {
     DrawBackground();
     bird_.Draw();
     pipe_engine_.DrawPipes();
+    StoreScore();
+    PrintScore();
   }
 }
 
@@ -103,15 +105,15 @@ void MyApp::DrawGameOver() const {
 
   PrintText("Game Over :(", kBlackColor, size, center, kGameOverSize);
 
-//  const cinder::vec2 play_again_text_position =
-//      cinder::vec2(cinder::app::getWindowCenter().x + 50,
-//          cinder::app::getWindowHeight() - 200);
+  const cinder::vec2 play_again_text_position =
+      cinder::vec2(cinder::app::getWindowCenter().x + 50,
+          cinder::app::getWindowHeight() - 200);
 
   StoreScore();
   PrintScore();
 
-//  PrintText("Press Tab Button to Play Again", kColorWhite, size,
-//      play_again_text_position, kPlayAgainSize);
+  PrintText("Press Tab Button to Play Again", kColorWhite, size,
+      play_again_text_position, kPlayAgainSize);
 }
 
 void MyApp::DrawMainMenu() {
@@ -188,7 +190,6 @@ void MyApp::PlayJumpAudio() {
   jump_audio_->start();
 }
 
-
 void MyApp::keyDown(KeyEvent event) {
   if (event.getCode() == KeyEvent::KEY_SPACE){
     if (!is_game_over_ && !is_main_menu_state_) {
@@ -200,6 +201,12 @@ void MyApp::keyDown(KeyEvent event) {
     is_game_over_ = true;
   } else if (event.getCode() == KeyEvent::KEY_p) {
     is_main_menu_state_ = false;
+  } else if (event.getCode() == KeyEvent::KEY_TAB) {
+    playing_state_num_frames_ = 0;
+    score_ = 0;
+    is_main_menu_state_ = true;
+    is_game_over_ = false;
+    bird_.ResetPosition();
   }
 }
 
